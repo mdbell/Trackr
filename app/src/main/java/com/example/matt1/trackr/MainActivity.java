@@ -1,7 +1,8 @@
 package com.example.matt1.trackr;
 
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,7 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.example.matt1.trackr.util.UiUtil;
+
+public class MainActivity extends AppCompatActivity implements IntentConstants{
+
+
+    static final int LOGIN_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,15 +52,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == LOGIN_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OKAY) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+                UiUtil.alert(this,"Sucess","We need to do shit here").show();
+                // Do something with the contact here (bigger example below)
+            }else{
+                String title = data.hasExtra(TITLE_KEY) ? data.getStringExtra(TITLE_KEY) : "Failed Login";
+                String message = data.hasExtra(MESSAGE_KEY) ? data.getStringExtra(MESSAGE_KEY) : "Unknown Error!";
+                UiUtil.alert(this,title,message).show();
+            }
+        }
+    }
+
     private void onLoginAttempt(){
         Intent i = new Intent(this,LoginAttemptActivity.class);
         TextView username = (TextView)findViewById(R.id.username);
         TextView password = (TextView)findViewById(R.id.password);
 
-        i.putExtra(LoginAttemptActivity.USERNAME_KEY,username.getText().toString());
-        i.putExtra(LoginAttemptActivity.PASSWORD_KEY,password.getText().toString());
+        i.putExtra(USERNAME_KEY,username.getText().toString());
+        i.putExtra(PASSWORD_KEY,password.getText().toString());
 
         //finish();
-        startActivity(i);
+        startActivityForResult(i, LOGIN_REQUEST);
     }
 }

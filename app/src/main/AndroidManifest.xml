@@ -16,7 +16,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".TrackingActivity"/>
-        <activity android:name=".LoginAttemptActivity" android:noHistory="true"></activity>
+        <activity android:name=".LoginAttemptActivity"></activity>
     </application>
 
 </manifest>
