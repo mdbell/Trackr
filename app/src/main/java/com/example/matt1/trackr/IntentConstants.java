@@ -12,6 +12,8 @@ public interface IntentConstants {
     String TITLE_KEY = "com.example.matt1.keys.title";
     String MESSAGE_KEY = "com.example.matt1.keys.message";
 
+    String PARCEL_INFO_KEY = "com.example.matt1.keys.parcelinfo";
+
     int RESULT_OKAY = 0;
     int RESULT_FAILED = 1;
 

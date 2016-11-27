@@ -1,8 +1,8 @@
 package com.example.matt1.trackr;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,12 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.matt1.trackr.api.ParcelInfo;
 import com.example.matt1.trackr.util.UiUtil;
 
 public class TrackingActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener,
-        PopupMenu.OnMenuItemClickListener{
+        PopupMenu.OnMenuItemClickListener, IntentConstants, AdapterView.OnItemClickListener {
 
-    private ArrayAdapter<String> adapter;
+    private ArrayAdapter<ParcelInfo> adapter;
     private int index = -1;
 
     @Override
@@ -26,13 +27,13 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_tracking);
 
         ListView list = (ListView)findViewById(R.id.parcels_list);
-        adapter = new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item);
-
+        adapter = new ArrayAdapter<ParcelInfo>(this, R.layout.support_simple_spinner_dropdown_item);
+        //TODO parse parcels
         for(int i = 1; i <= 100;i++) {
-            adapter.add("This will be a tracking #" + i);
+            adapter.add(new ParcelInfo("", i, "Test", null, null));
         }
         list.setAdapter(adapter);
-
+        list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
     }
 
@@ -53,7 +54,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
                 return true;
             case R.id.menu_tracking_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
-                //TODO pass params
+                //TODO pass token
                 startActivity(i);
                 return true;
             default:
@@ -73,6 +74,26 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
-        return false;
+        switch (menuItem.getItemId()) {
+            case R.id.menu_tracking_selected_details:
+                showDetails();
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        index = i;
+        showDetails();
+    }
+
+    private void showDetails() {
+        Intent i = new Intent(this, TrackingDetailsActivity.class);
+        ParcelInfo p = adapter.getItem(index);
+        //TODO pass token
+        i.putExtra(PARCEL_INFO_KEY, p.getUid());
+        startActivity(i);
     }
 }

@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".TrackingActivity" />
         <activity android:name=".LoginAttemptActivity" />
-        <activity android:name=".SettingsActivity"></activity>
+        <activity android:name=".SettingsActivity" />
+        <activity android:name=".TrackingDetailsActivity"></activity>
     </application>
 
 </manifest>
