@@ -14,6 +14,10 @@ public interface IntentConstants {
     String LOGIN_KEY = "com.example.matt1.keys.login";
     String LOGIN_MESSAGE_KEY = "com.example.matt1.keys.login_message";
 
+    String SHARED_PREFS_NAME = "TrackrSharedPrefs";
+
+    String REMEMBER_ME_KEY = "com.example.matt1.keys.remember_me";
+
     String PARCEL_INFO_KEY = "com.example.matt1.keys.parcelinfo";
 
     int RESULT_OKAY = 0;
