@@ -47,7 +47,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         switch (item.getItemId()) {
             case R.id.menu_tracking_add:
             case R.id.menu_tracking_help:
-            case R.id.menu_tracking_search:
+            case R.id.menu_tracking_refresh:
             case R.id.menu_tracking_signout:
                 UiUtil.alert(this, "Unimplemented", "We need to do this").show();
                 return true;
