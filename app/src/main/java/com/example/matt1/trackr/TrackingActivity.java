@@ -28,7 +28,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
 
         ListView list = (ListView)findViewById(R.id.parcels_list);
         adapter = new ArrayAdapter<ParcelInfo>(this, R.layout.support_simple_spinner_dropdown_item);
-        //TODO parse parcels
+        //TODO parse parcelstes
         for(int i = 1; i <= 100;i++) {
             adapter.add(new ParcelInfo("", i, "Test", null, null));
         }
