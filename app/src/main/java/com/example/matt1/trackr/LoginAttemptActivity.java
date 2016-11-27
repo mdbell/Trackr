@@ -12,9 +12,8 @@ public class LoginAttemptActivity extends AppCompatActivity implements IntentCon
 
         System.out.println(getIntent().getStringExtra(USERNAME_KEY) + " " + getIntent().getStringExtra(PASSWORD_KEY));
         Intent results = new Intent();
-
-        results.putExtra(MESSAGE_KEY,"Invalid password!");
-        this.setResult(RESULT_FAILED,results);
+        //TODO remove this, add proper api support
+        this.setResult(RESULT_OKAY,results);
         super.onBackPressed();
     }
 }

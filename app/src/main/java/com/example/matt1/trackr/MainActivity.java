@@ -58,10 +58,11 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
         if (requestCode == LOGIN_REQUEST) {
             // Make sure the request was successful
             if (resultCode == RESULT_OKAY) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-                UiUtil.alert(this,"Sucess","We need to do shit here").show();
-                // Do something with the contact here (bigger example below)
+
+                Intent i = new Intent(this, TrackingActivity.class);
+                i.putExtra(TOKEN_KEY,data.getStringExtra(TOKEN_KEY));
+                finish();
+                startActivity(i);
             }else{
                 String title = data.hasExtra(TITLE_KEY) ? data.getStringExtra(TITLE_KEY) : "Failed Login";
                 String message = data.hasExtra(MESSAGE_KEY) ? data.getStringExtra(MESSAGE_KEY) : "Unknown Error!";
