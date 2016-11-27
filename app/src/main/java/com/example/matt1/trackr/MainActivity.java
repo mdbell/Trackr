@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
         setContentView(R.layout.activity_main);
 
         final Button loginButton = (Button)findViewById(R.id.login_button);
-        final TextView username = (TextView)findViewById(R.id.username);
-        final TextView password = (TextView)findViewById(R.id.password);
+        final TextView username = (TextView)findViewById(R.id.login_username);
+        final TextView password = (TextView)findViewById(R.id.login_password);
         TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -73,8 +73,8 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
 
     private void onLoginAttempt(){
         Intent i = new Intent(this,LoginAttemptActivity.class);
-        TextView username = (TextView)findViewById(R.id.username);
-        TextView password = (TextView)findViewById(R.id.password);
+        TextView username = (TextView)findViewById(R.id.login_username);
+        TextView password = (TextView)findViewById(R.id.login_password);
 
         i.putExtra(USERNAME_KEY,username.getText().toString());
         i.putExtra(PASSWORD_KEY,password.getText().toString());
