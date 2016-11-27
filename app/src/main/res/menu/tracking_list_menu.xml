@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_tracking_refresh"
+        android:title="Refresh" />
+    <item
+        android:id="@+id/menu_tracking_add"
+        android:title="Add Item" />
+    <item
+        android:id="@+id/menu_tracking_settings"
+        android:title="Settings" />
+    <item
+        android:id="@+id/menu_tracking_help"
+        android:title="Help" />
+    <item
+        android:id="@+id/menu_tracking_signout"
+        android:title="Sign Out" />
+</menu>
