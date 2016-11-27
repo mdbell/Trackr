@@ -1,8 +1,6 @@
 package com.example.matt1.trackr;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,7 +21,8 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button loginButton = (Button)findViewById(R.id.login_button);
+        final Button loginButton = (Button)findViewById(R.id.login_button_login);
+        final Button registerButton =(Button)findViewById(R.id.login_button_register);
         final TextView username = (TextView)findViewById(R.id.login_username);
         final TextView password = (TextView)findViewById(R.id.login_password);
         TextWatcher watcher = new TextWatcher() {
@@ -39,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                loginButton.setEnabled(username.getText().length() > 0 && password.getText().length() > 0);
+                boolean b = username.getText().length() > 0 && password.getText().length() > 0;
+                loginButton.setEnabled(b);
+                registerButton.setEnabled(b);
             }
         };
         username.addTextChangedListener(watcher);
@@ -48,6 +49,13 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
             @Override
             public void onClick(View view) {
                 onLoginAttempt();
+            }
+        });
+        registerButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                onRegisterAttempt();
             }
         });
     }
@@ -71,11 +79,25 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
         }
     }
 
-    private void onLoginAttempt(){
+    private void onRegisterAttempt(){
         Intent i = new Intent(this,LoginAttemptActivity.class);
         TextView username = (TextView)findViewById(R.id.login_username);
         TextView password = (TextView)findViewById(R.id.login_password);
 
+        i.putExtra(LOGIN_KEY,false);
+        i.putExtra(LOGIN_MESSAGE_KEY,"Registering...");
+        i.putExtra(USERNAME_KEY,username.getText().toString());
+        i.putExtra(PASSWORD_KEY,password.getText().toString());
+
+        //finish();
+        startActivityForResult(i, LOGIN_REQUEST);
+    }
+
+    private void onLoginAttempt(){
+        Intent i = new Intent(this,LoginAttemptActivity.class);
+        TextView username = (TextView)findViewById(R.id.login_username);
+        TextView password = (TextView)findViewById(R.id.login_password);
+        i.putExtra(LOGIN_MESSAGE_KEY,"Logging In...");
         i.putExtra(USERNAME_KEY,username.getText().toString());
         i.putExtra(PASSWORD_KEY,password.getText().toString());
 

@@ -11,6 +11,8 @@ public interface IntentConstants {
     String PASSWORD_KEY = "com.example.matt1.keys.password";
     String TITLE_KEY = "com.example.matt1.keys.title";
     String MESSAGE_KEY = "com.example.matt1.keys.message";
+    String LOGIN_KEY = "com.example.matt1.keys.login";
+    String LOGIN_MESSAGE_KEY = "com.example.matt1.keys.login_message";
 
     String PARCEL_INFO_KEY = "com.example.matt1.keys.parcelinfo";
 

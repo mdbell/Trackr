@@ -15,19 +15,9 @@
         android:id="@+id/login_remember_me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/login_button"
+        android:layout_above="@+id/login_button_login"
         android:layout_centerHorizontal="true"
         android:text="Remember Me" />
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="117dp"
-        android:enabled="false"
-        android:text="Login" />
 
     <EditText
         android:id="@+id/login_password"
@@ -40,14 +30,6 @@
         android:hint="Password"
         android:inputType="textPassword" />
 
-    <ImageView
-        android:id="@+id/login_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/login_remember_me"
-        app:srcCompat="@drawable/icon" />
-
     <EditText
         android:id="@+id/login_username"
         android:layout_width="wrap_content"
@@ -56,6 +38,37 @@
         android:hint="Username"
         android:inputType="textPersonName"
         android:layout_above="@+id/login_password"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/login_button_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="111dp"
+        android:enabled="false"
+        android:text="Login"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/login_remember_me" />
+
+    <Button
+        android:text="Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_button_register"
+        android:layout_below="@+id/login_remember_me"
+        android:layout_toEndOf="@+id/login_remember_me"
+        android:enabled="false" />
+
+    <ImageView
+        android:id="@+id/login_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/login_remember_me"
+        app:srcCompat="@drawable/icon"
+        android:layout_below="@+id/login_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp" />
 
 </RelativeLayout>

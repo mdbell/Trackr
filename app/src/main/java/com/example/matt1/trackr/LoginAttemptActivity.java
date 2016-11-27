@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.example.matt1.trackr.api.Envelope;
 import com.example.matt1.trackr.api.LoginResponse;
@@ -20,17 +21,29 @@ public class LoginAttemptActivity extends AppCompatActivity implements IntentCon
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_attempt);
-        new LoginASyncTask().execute(getIntent().getStringExtra(USERNAME_KEY), getIntent().getStringExtra(PASSWORD_KEY));
+        TextView view = (TextView)findViewById(R.id.login_attempt_message);
+        Intent i = getIntent();
+        if(i.hasExtra(LOGIN_MESSAGE_KEY)) {
+            view.setText(i.getStringExtra(LOGIN_MESSAGE_KEY));
+        }
+        new LoginASyncTask(i.getBooleanExtra(LOGIN_KEY,true)).execute(getIntent().getStringExtra(USERNAME_KEY), getIntent().getStringExtra(PASSWORD_KEY));
     }
 
     private class LoginASyncTask extends AsyncTask<String, Void, Envelope<LoginResponse>> {
 
+        private boolean login;
+
+        public LoginASyncTask(boolean login) {
+            this.login = login;
+        }
+
         @Override
         protected Envelope<LoginResponse> doInBackground(String... strings) {
             try {
+                String action = login ? "login" : "register";
                 String user = URLEncoder.encode(strings[0],"UTF-8");
                 String pass = URLEncoder.encode(strings[1],"UTF-8");
-                String url = String.format("https://trackr.mdbell.me/query.php?action=login&user=%s&pass=%s", user, pass);
+                String url = String.format("https://trackr.mdbell.me/query.php?action=%s&user=%s&pass=%s",action, user, pass);
                 URLConnection conn = new URL(url).openConnection();
                 conn.connect();
 
