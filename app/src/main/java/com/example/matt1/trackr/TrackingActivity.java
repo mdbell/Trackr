@@ -38,7 +38,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_tracking);
 
         ListView list = (ListView)findViewById(R.id.parcels_list);
-        adapter = new ParceListAdapter(this, R.layout.support_simple_spinner_dropdown_item);
+        adapter = new ParceArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item);
         list.setAdapter(adapter);
         list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
@@ -146,8 +146,8 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
-    class ParceListAdapter extends ArrayAdapter<ParcelInfo> {
-        public ParceListAdapter(Context context, int resource) {
+    class ParceArrayAdapter extends ArrayAdapter<ParcelInfo> {
+        public ParceArrayAdapter(Context context, int resource) {
             super(context, resource);
         }
 

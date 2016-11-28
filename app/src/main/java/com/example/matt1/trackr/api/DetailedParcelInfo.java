@@ -21,4 +21,26 @@ public class DetailedParcelInfo extends ParcelInfo {
         //We do this to make the array immutable
         return Arrays.copyOf(rows, rows.length);
     }
+
+    public static class ParcelRow {
+        long time;
+        String location;
+        String status;
+
+        protected ParcelRow() {
+
+        }
+
+        public long getTime() {
+            return time;
+        }
+
+        public String getLocation() {
+            return location;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+    }
 }

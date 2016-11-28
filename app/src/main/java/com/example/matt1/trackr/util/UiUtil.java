@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by matt1 on 11/26/2016.
  */
@@ -17,6 +21,7 @@ public class UiUtil {
             dialogInterface.dismiss();
         }
     };
+    private static final DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a");
 
     public static AlertDialog alert(Context ctx, String title, String message) {
         AlertDialog dialog = new AlertDialog.Builder(ctx).create();
@@ -24,6 +29,10 @@ public class UiUtil {
         dialog.setMessage(message);
         dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", DISMESS_DIALOG);
         return dialog;
+    }
+
+    public static String formatTimestamp(long timestamp) {
+        return formatter.format(new Date(timestamp * 1000));
     }
 
 }

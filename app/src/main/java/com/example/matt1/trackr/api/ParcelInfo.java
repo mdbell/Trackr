@@ -9,13 +9,6 @@ public class ParcelInfo {
     String name;
     String desc;
 
-    //TODO remove
-    public ParcelInfo(String trackNo, String name, String desc) {
-        this.trackNo = trackNo;
-        this.name = name;
-        this.desc = desc;
-    }
-
     protected ParcelInfo() {
 
     }
@@ -34,27 +27,5 @@ public class ParcelInfo {
 
     public String toString() {
         return name;
-    }
-
-    static class ParcelRow {
-        long time;
-        String location;
-        String status;
-
-        protected ParcelRow() {
-
-        }
-
-        public long getTime() {
-            return time;
-        }
-
-        public String getLocation() {
-            return location;
-        }
-
-        public String getStatus() {
-            return status;
-        }
     }
 }

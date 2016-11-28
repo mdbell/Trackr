@@ -38,6 +38,7 @@ public abstract class ApiAsyncTask<T> extends AsyncTask<String, Void, Envelope<T
             url = url + "&" + params;
         }
         try {
+            System.out.println(url);
             URLConnection conn = new URL(url).openConnection();
             conn.connect();
 
