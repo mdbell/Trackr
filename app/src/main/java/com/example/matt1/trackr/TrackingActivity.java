@@ -1,19 +1,30 @@
 package com.example.matt1.trackr;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PopupMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.matt1.trackr.api.Envelope;
 import com.example.matt1.trackr.api.ParcelInfo;
 import com.example.matt1.trackr.util.UiUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.Reader;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TrackingActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener,
         PopupMenu.OnMenuItemClickListener, IntentConstants, AdapterView.OnItemClickListener {
@@ -27,14 +38,15 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_tracking);
 
         ListView list = (ListView)findViewById(R.id.parcels_list);
-        adapter = new ArrayAdapter<ParcelInfo>(this, R.layout.support_simple_spinner_dropdown_item);
-        //TODO parse parcelstes
-        for(int i = 1; i <= 100;i++) {
-            adapter.add(new ParcelInfo("", i, "Test", null, null));
-        }
+        adapter = new ParceListAdapter(this, R.layout.support_simple_spinner_dropdown_item);
         list.setAdapter(adapter);
         list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
+        update();
+    }
+
+    public void update() {
+        new TrackingAsyncTask().execute();
     }
 
     @Override
@@ -46,9 +58,11 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_tracking_refresh:
+                update();
+                return true;
             case R.id.menu_tracking_add:
             case R.id.menu_tracking_help:
-            case R.id.menu_tracking_refresh:
             case R.id.menu_tracking_signout:
                 UiUtil.alert(this, "Unimplemented", "We need to do this").show();
                 return true;
@@ -92,8 +106,78 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
     private void showDetails() {
         Intent i = new Intent(this, TrackingDetailsActivity.class);
         ParcelInfo p = adapter.getItem(index);
-        //TODO pass token
-        i.putExtra(PARCEL_INFO_KEY, p.getUid());
+        i.putExtra(PARCEL_INFO_KEY, p.getId());
+        i.putExtra(TOKEN_KEY, getIntent().getStringExtra(TOKEN_KEY));
         startActivity(i);
+    }
+
+    private class TrackingAsyncTask extends ApiAsyncTask<ParcelInfo[]> {
+
+        @Override
+        protected String getAction() {
+            return "track_all";
+        }
+
+        @Override
+        protected Map<String, String> getParams() {
+            Map<String, String> map = new TreeMap<>();
+            map.put("token", getIntent().getStringExtra(TOKEN_KEY));
+            return map;
+        }
+
+        @Override
+        protected void onPostQuery(Envelope<ParcelInfo[]> env) {
+            if (env == null || env.getResponse() == null) {
+                UiUtil.alert(TrackingActivity.this, "Error", "Unknown error getting results").show();
+                return; // no results/error
+            }
+            if (env.getResponse().getCode() / 100 != 2) {
+                UiUtil.alert(TrackingActivity.this, env.getResponse().getTitle(), env.getResponse().getMessage()).show();
+            } else if (env.getData() != null) {
+                adapter.clear();
+                adapter.addAll(env.getData());
+            }
+        }
+
+        @Override
+        protected Envelope<ParcelInfo[]> fromJson(Gson gson, Reader r) {
+            return gson.fromJson(r, new TypeToken<Envelope<ParcelInfo[]>>() {
+            }.getType());
+        }
+    }
+
+    class ParceListAdapter extends ArrayAdapter<ParcelInfo> {
+        public ParceListAdapter(Context context, int resource) {
+            super(context, resource);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            View v = convertView;
+
+            if (v == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                v = vi.inflate(R.layout.tracking_list_element, parent, false);
+            }
+
+            ParcelInfo p = getItem(position);
+
+            if (p != null) {
+                TextView tt1 = (TextView) v.findViewById(R.id.tracking_name);
+                TextView tt2 = (TextView) v.findViewById(R.id.tracking_code);
+
+                if (tt1 != null) {
+                    tt1.setText(p.getName());
+                }
+
+                if (tt2 != null) {
+                    tt2.setText(p.getId());
+                }
+            }
+
+            return v;
+        }
     }
 }

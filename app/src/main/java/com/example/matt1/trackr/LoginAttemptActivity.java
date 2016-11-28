@@ -1,7 +1,6 @@
 package com.example.matt1.trackr;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -11,10 +10,9 @@ import com.example.matt1.trackr.api.LoginResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginAttemptActivity extends AppCompatActivity implements IntentConstants{
     @Override
@@ -26,41 +24,42 @@ public class LoginAttemptActivity extends AppCompatActivity implements IntentCon
         if(i.hasExtra(LOGIN_MESSAGE_KEY)) {
             view.setText(i.getStringExtra(LOGIN_MESSAGE_KEY));
         }
-        new LoginASyncTask(i.getBooleanExtra(LOGIN_KEY,true)).execute(getIntent().getStringExtra(USERNAME_KEY), getIntent().getStringExtra(PASSWORD_KEY));
+        new LoginASyncTask(i.getBooleanExtra(LOGIN_KEY, true), getIntent().getStringExtra(USERNAME_KEY), getIntent().getStringExtra(PASSWORD_KEY)).execute();
     }
 
-    private class LoginASyncTask extends AsyncTask<String, Void, Envelope<LoginResponse>> {
+    private class LoginASyncTask extends ApiAsyncTask<LoginResponse> {
 
         private boolean login;
+        private String user, pass;
 
-        public LoginASyncTask(boolean login) {
+        public LoginASyncTask(boolean login, String user, String pass) {
             this.login = login;
+            this.user = user;
+            this.pass = pass;
+        }
+
+        //Need to do this due to java's type erasure
+        @Override
+        protected Envelope<LoginResponse> fromJson(Gson gson, Reader r) {
+            return gson.fromJson(r, new TypeToken<Envelope<LoginResponse>>() {
+            }.getType());
         }
 
         @Override
-        protected Envelope<LoginResponse> doInBackground(String... strings) {
-            try {
-                String action = login ? "login" : "register";
-                String user = URLEncoder.encode(strings[0],"UTF-8");
-                String pass = URLEncoder.encode(strings[1],"UTF-8");
-                String url = String.format("https://trackr.mdbell.me/query.php?action=%s&user=%s&pass=%s",action, user, pass);
-                URLConnection conn = new URL(url).openConnection();
-                conn.connect();
-
-                InputStreamReader reader = new InputStreamReader(conn.getInputStream());
-                Gson gson = new Gson();
-
-                return gson.fromJson(reader,new TypeToken<Envelope<LoginResponse>>(){}.getType());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
+        protected String getAction() {
+            return login ? "login" : "register";
         }
 
         @Override
-        protected void onPostExecute(Envelope<LoginResponse> env) {
-            super.onPostExecute(env);
+        protected Map<String, String> getParams() {
+            Map<String, String> map = new HashMap<>();
+            map.put("user", user);
+            map.put("pass", pass);
+            return map;
+        }
 
+        @Override
+        protected void onPostQuery(Envelope<LoginResponse> env) {
             int code;
             Intent i = new Intent();
             if (env == null || env.getResponse() == null) {

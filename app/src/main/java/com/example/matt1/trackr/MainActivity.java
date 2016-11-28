@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
 
                 Intent i = new Intent(this, TrackingActivity.class);
                 i.putExtra(TOKEN_KEY,data.getStringExtra(TOKEN_KEY));
+                System.out.println(i.getStringExtra(TOKEN_KEY));
                 finish();
                 startActivity(i);
             }else{
