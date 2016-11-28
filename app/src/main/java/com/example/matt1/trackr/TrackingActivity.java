@@ -62,6 +62,8 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
                 update();
                 return true;
             case R.id.menu_tracking_add:
+                addCode();
+                return true;
             case R.id.menu_tracking_help:
             case R.id.menu_tracking_signout:
                 UiUtil.alert(this, "Unimplemented", "We need to do this").show();
@@ -101,6 +103,12 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         index = i;
         showDetails();
+    }
+
+    private void addCode() {
+        Intent i = new Intent(this, AddItemActivity.class);
+        i.putExtra(TOKEN_KEY, getIntent().getStringExtra(TOKEN_KEY));
+        startActivity(i);
     }
 
     private void showDetails() {

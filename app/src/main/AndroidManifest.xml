@@ -22,7 +22,8 @@
         <activity android:name=".TrackingActivity" />
         <activity android:name=".LoginAttemptActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".TrackingDetailsActivity"></activity>
+        <activity android:name=".TrackingDetailsActivity" />
+        <activity android:name=".AddItemActivity"></activity>
     </application>
 
 </manifest>
