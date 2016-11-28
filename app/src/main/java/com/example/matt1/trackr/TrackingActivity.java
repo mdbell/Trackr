@@ -29,6 +29,7 @@ import java.util.TreeMap;
 public class TrackingActivity extends AppCompatActivity implements AdapterView.OnItemLongClickListener,
         PopupMenu.OnMenuItemClickListener, IntentConstants, AdapterView.OnItemClickListener {
 
+    private static int CODE_ADDED = 1;
     private ArrayAdapter<ParcelInfo> adapter;
     private int index = -1;
 
@@ -38,7 +39,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         setContentView(R.layout.activity_tracking);
 
         ListView list = (ListView)findViewById(R.id.parcels_list);
-        adapter = new ParceArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item);
+        adapter = new ParcelArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item);
         list.setAdapter(adapter);
         list.setOnItemClickListener(this);
         list.setOnItemLongClickListener(this);
@@ -70,7 +71,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
                 return true;
             case R.id.menu_tracking_settings:
                 Intent i = new Intent(this, SettingsActivity.class);
-                //TODO pass token
+                i.putExtra(TOKEN_KEY, getIntent().getStringExtra(TOKEN_KEY));
                 startActivity(i);
                 return true;
             default:
@@ -105,10 +106,17 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         showDetails();
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == CODE_ADDED) {
+            update();
+        }
+    }
+
     private void addCode() {
         Intent i = new Intent(this, AddItemActivity.class);
         i.putExtra(TOKEN_KEY, getIntent().getStringExtra(TOKEN_KEY));
-        startActivity(i);
+        startActivityForResult(i, CODE_ADDED);
     }
 
     private void showDetails() {
@@ -154,8 +162,8 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         }
     }
 
-    class ParceArrayAdapter extends ArrayAdapter<ParcelInfo> {
-        public ParceArrayAdapter(Context context, int resource) {
+    class ParcelArrayAdapter extends ArrayAdapter<ParcelInfo> {
+        public ParcelArrayAdapter(Context context, int resource) {
             super(context, resource);
         }
 

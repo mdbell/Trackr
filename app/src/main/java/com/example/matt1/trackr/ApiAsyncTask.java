@@ -68,7 +68,10 @@ public abstract class ApiAsyncTask<T> extends AsyncTask<String, Void, Envelope<T
         while (i.hasNext()) {
             String key = i.next();
             String value = params.get(key);
-            builder.append(encode(key)).append('=').append(value);
+            if (value.length() == 0) { // skip empty values
+                continue;
+            }
+            builder.append(encode(key)).append('=').append(encode(value));
             if (i.hasNext()) {
                 builder.append('&');
             }

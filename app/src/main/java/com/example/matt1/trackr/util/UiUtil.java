@@ -3,6 +3,7 @@ package com.example.matt1.trackr.util;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -29,6 +30,10 @@ public class UiUtil {
         dialog.setMessage(message);
         dialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK", DISMESS_DIALOG);
         return dialog;
+    }
+
+    public static Toast toast(Context ctx, String message) {
+        return Toast.makeText(ctx, message, Toast.LENGTH_SHORT);
     }
 
     public static String formatTimestamp(long timestamp) {
