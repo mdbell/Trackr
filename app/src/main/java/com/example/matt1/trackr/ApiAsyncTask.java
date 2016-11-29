@@ -68,6 +68,9 @@ public abstract class ApiAsyncTask<T> extends AsyncTask<String, Void, Envelope<T
         while (i.hasNext()) {
             String key = i.next();
             String value = params.get(key);
+            if(value == null) {
+                System.err.println("Hey fuckwit! null value! key:" + key);
+            }
             if (value.length() == 0) { // skip empty values
                 continue;
             }

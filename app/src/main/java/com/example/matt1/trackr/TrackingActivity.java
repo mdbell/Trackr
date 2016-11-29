@@ -1,5 +1,6 @@
 package com.example.matt1.trackr;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tracking);
 
-        ListView list = (ListView)findViewById(R.id.parcels_list);
+        ListView list = (ListView)findViewById(R.id.list);
         adapter = new ParcelArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item);
         list.setAdapter(adapter);
         list.setOnItemClickListener(this);
@@ -152,6 +153,10 @@ public class TrackingActivity extends AppCompatActivity implements AdapterView.O
             } else if (env.getData() != null) {
                 adapter.clear();
                 adapter.addAll(env.getData());
+            }
+
+            if(env.getData() == null || env.getData().length == 0) {
+                UiUtil.toast(TrackingActivity.this,"You have no tracking numbers! Use the menu to add some!").show();
             }
         }
 
