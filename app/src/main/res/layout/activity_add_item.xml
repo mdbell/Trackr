@@ -18,17 +18,6 @@
         android:layout_alignParentTop="true"
         android:text="Name" />
 
-    <EditText
-        android:id="@+id/add_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/add_desc_label"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:minLines="3" />
-
     <TextView
         android:id="@+id/add_code_label"
         android:layout_width="wrap_content"
@@ -36,16 +25,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/add_name"
         android:text="Tracking Number" />
-
-    <EditText
-        android:id="@+id/add_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/add_code_label"
-        android:ems="10"
-        android:inputType="number" />
 
     <TextView
         android:id="@+id/add_desc_label"
@@ -71,6 +50,30 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/add_name_label"
         android:ems="10"
+        android:hint="(Optional)"
         android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/add_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/add_code_label"
+        android:ems="10"
+        android:hint="(Required)"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/add_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/add_desc_label"
+        android:ems="10"
+        android:hint="(Optional)"
+        android:inputType="textMultiLine"
+        android:minLines="3" />
 
 </RelativeLayout>

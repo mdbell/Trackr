@@ -23,10 +23,13 @@ public class MainActivity extends AppCompatActivity implements IntentConstants{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final SharedPreferences prefs = getSharedPreferences(SHARED_PREFS_NAME, 0);
+
         final Button loginButton = (Button)findViewById(R.id.login_button_login);
         final Button registerButton =(Button)findViewById(R.id.login_button_register);
+
         final TextView username = (TextView)findViewById(R.id.login_username);
         final TextView password = (TextView)findViewById(R.id.login_password);
+
         final CheckBox remember = (CheckBox) findViewById(R.id.login_remember_me);
         TextWatcher watcher = new TextWatcher() {
             @Override

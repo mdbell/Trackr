@@ -33,7 +33,6 @@ public class AddItemActivity extends AppCompatActivity implements IntentConstant
     }
 
     public void attemptAdd() {
-        //TODO add api callback
         TextView name = (TextView) findViewById(R.id.add_name);
         TextView code = (TextView) findViewById(R.id.add_code);
         TextView desc = (TextView) findViewById(R.id.add_desc);
